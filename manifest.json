@@ -3,7 +3,7 @@
     "version": "1.0",
     "description": "Control video playback speed on YouTube with simple buttons.",
     "manifest_version": 3,
-    "permissions": ["activeTab", "storage"],
+    "permissions": ["activeTab", "storage", "webNavigation"],
     "options_page": "options.html",
     "content_scripts": [
       {
