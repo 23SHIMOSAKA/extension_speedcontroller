@@ -60,6 +60,31 @@ function makeAllContainer() {
     });
     allContainer.appendChild(screenShotButton);
 
+    // 音量ボタン（ミュート、最大）
+    const volumeButtons = document.createElement('div');
+    volumeButtons.id = 'volumeContainer';
+    const muteButton = document.createElement('button');
+    muteButton.textContent = '🔈';
+    const maxVolumeButton = document.createElement('button');
+    maxVolumeButton.textContent = '🔊';
+    volumeButtons.appendChild(muteButton);
+    volumeButtons.appendChild(maxVolumeButton);
+    muteButton.addEventListener('click', () => {
+        video.muted = !video.muted;
+        if (video.muted) {
+            muteButton.textContent = '🔇';
+        } else {
+            muteButton.textContent = '🔈';
+        }
+    });
+    maxVolumeButton.addEventListener('click', () => {
+        video.muted = false;
+        video.volume = 1;
+        muteButton.textContent = '🔈';
+    });
+    allContainer.appendChild(volumeButtons);
+
+
     return allContainer;
 }
 

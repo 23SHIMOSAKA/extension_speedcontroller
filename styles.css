@@ -13,6 +13,18 @@
     align-items: flex-end;
 }
 
+#volumeContainer {
+    order: 3;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+#volumeContainer button {
+    width: fit-content;
+}
+
 button {
     width:25%;
     background-color: #ecf0f1;
