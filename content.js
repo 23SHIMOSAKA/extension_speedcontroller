@@ -3,7 +3,7 @@ function makeAllContainer() {
     allContainer.id = 'AllContainer';
 
     // 動画部分
-    let video = document.querySelector('.video-stream');
+    let video = document.querySelector('.video-stream').addEventListener('loadedmetadata', applySavedPlaybackRate);
 
     // 再生速度ボタン
     const speedButtons = document.createElement('div');
@@ -16,10 +16,12 @@ function makeAllContainer() {
         button.addEventListener('click', () => {
             try {
                 video.playbackRate = speed
+                savePlaybackRate(speed); // 新しい速度を保存
                 updateButtonColors(speed); // ボタンの色を更新
             } catch (e) {
-                video = document.querySelector('.video-stream');
+                video = getVideo();
                 video.playbackRate = speed
+                savePlaybackRate(speed); // 新しい速度を保存
                 updateButtonColors(speed); // ボタンの色を更新
             }
         });
@@ -84,8 +86,13 @@ function makeAllContainer() {
     });
     allContainer.appendChild(volumeButtons);
 
+    applySavedPlaybackRate(); // 保存された再生速度を適用
 
     return allContainer;
+}
+
+function getVideo() {
+    return document.querySelector('.video-stream');
 }
 
 // 再生速度ボタンの色を更新する関数
@@ -102,6 +109,22 @@ const updateButtonColors = (selectedSpeed) => {
         }
     });
 };
+
+// 再生速度をchrome.storageに保存する関数
+function savePlaybackRate(speed) {
+    chrome.storage.sync.set({ playbackRate: speed });
+}
+
+// 保存された再生速度を適用する関数
+function applySavedPlaybackRate() {
+    chrome.storage.sync.get(['playbackRate'], function(result) {
+        video = getVideo();
+        if (result.playbackRate && video) {
+            video.playbackRate = result.playbackRate;
+            updateButtonColors(result.playbackRate); // ボタンの色を更新
+        }
+    });
+}
 
 // 新しい要素を追加する関数
 function insertAfterNewElement(targetId) {
