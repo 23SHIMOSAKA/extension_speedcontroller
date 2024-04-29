@@ -7,7 +7,7 @@
     "options_page": "options.html",
     "content_scripts": [
       {
-        "matches": ["*://www.youtube.com/*"],
+        "matches": ["*://www.youtube.com/watch*"],
         "css": ["styles.css"],
         "js": ["content.js"]
       }

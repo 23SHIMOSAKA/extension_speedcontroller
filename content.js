@@ -176,3 +176,25 @@ observer.observe(document.body, {
     childList: true,
     subtree: true,
 });
+
+// const observer2 = new MutationObserver((mutations, obs) => {
+//     // 目的の要素が見つかった場合、新しい要素を追加して監視を停止
+//     const itemsWithClass = document.querySelectorAll('#items.style-scope.ytd-guide-section-renderer');
+//     if (itemsWithClass) {
+//         const searchContainer = document.createElement('div');
+//         searchContainer.innerHTML = '<input type="text" id="channelSearchInput" placeholder="チャンネルを検索">';
+//         const itemsContainer = document.querySelector('#guide-section-title');
+//         console.log(itemsContainer)
+//         // itemsContainer.insertBefore(searchContainer, itemsContainer.firstChild);
+
+//         console.log("done")
+//         obs.disconnect(); // 監視を停止
+//     }
+// });
+
+// // 監視を開始する
+// observer2.observe(document.body, {
+//     childList: true,
+//     subtree: true,
+// });
+
