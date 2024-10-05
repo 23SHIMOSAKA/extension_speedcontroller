@@ -12,5 +12,8 @@
   "devDependencies": {
     "webpack": "^5.95.0",
     "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "npm-install-missing": "^0.1.4"
   }
 }
