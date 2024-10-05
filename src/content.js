@@ -1,17 +1,9 @@
 import SpeedController from './speedController.js';
 import ScreenshotController from './screenshotController.js';
 
-console.log('content.js loaded');
-
 function createAllContainer() {
     const allContainer = document.createElement('div');
     allContainer.id = 'AllContainer';
-
-    // 再生速度ボタン
-    const speedContainer = document.createElement('div');
-    speedContainer.id = 'speedContainer';
-    allContainer.appendChild(speedContainer);
-    new SpeedController(speedContainer);
 
     // スクリーンショットボタン
     const screenshotButton = document.createElement('button');
@@ -20,7 +12,11 @@ function createAllContainer() {
     allContainer.appendChild(screenshotButton);
     new ScreenshotController(screenshotButton);
 
-    // その他のボタンも同様にクラスとして分割
+    // 再生速度ボタン
+    const speedContainer = document.createElement('div');
+    speedContainer.id = 'speedContainer';
+    allContainer.appendChild(speedContainer);
+    new SpeedController(speedContainer);
 
     return allContainer;
 }
