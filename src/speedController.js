@@ -1,3 +1,5 @@
+// speedController.js
+
 import { getVideo } from './utils.js';
 
 class SpeedController {
@@ -9,21 +11,8 @@ class SpeedController {
     }
 
     init() {
-        this.video = getVideo();
-        if (!this.video) {
-            // 動画要素が見つからない場合は待機
-            const observer = new MutationObserver((mutations, obs) => {
-                this.video = getVideo();
-                if (this.video) {
-                    this.applySavedPlaybackRate();
-                    obs.disconnect();
-                }
-            });
-            observer.observe(document.body, { childList: true, subtree: true });
-        } else {
-            this.applySavedPlaybackRate();
-        }
         this.loadSpeeds();
+        this.setupVideoObserver();
     }
 
     loadSpeeds() {
@@ -41,9 +30,6 @@ class SpeedController {
     }
 
     onSpeedButtonClick(speed) {
-        if (!this.video) {
-            this.video = getVideo();
-        }
         if (this.video) {
             this.video.playbackRate = speed;
             this.savePlaybackRate(speed);
@@ -73,6 +59,47 @@ class SpeedController {
                 button.classList.remove('active');
             }
         });
+    }
+
+    setupVideoObserver() {
+        // 最初の動画要素を取得
+        this.video = getVideo();
+
+        // 動画が存在しない場合、DOMの変化を監視
+        if (!this.video) {
+            const bodyObserver = new MutationObserver((mutations, obs) => {
+                this.video = getVideo();
+                if (this.video) {
+                    this.addVideoEventListeners();
+                    obs.disconnect();
+                }
+            });
+            bodyObserver.observe(document.body, { childList: true, subtree: true });
+        } else {
+            this.addVideoEventListeners();
+        }
+
+        // 動画要素の置き換えを監視
+        const videoParent = document.querySelector('.html5-video-player');
+        if (videoParent) {
+            const videoObserver = new MutationObserver(() => {
+                const newVideo = getVideo();
+                if (newVideo && newVideo !== this.video) {
+                    this.video = newVideo;
+                    this.addVideoEventListeners();
+                }
+            });
+            videoObserver.observe(videoParent, { childList: true, subtree: true });
+        }
+    }
+
+    addVideoEventListeners() {
+        if (this.video) {
+            // 動画のメタデータがロードされたときに再生速度を適用
+            this.video.addEventListener('loadedmetadata', () => this.applySavedPlaybackRate());
+            // ページ読み込み時にも再生速度を適用
+            this.applySavedPlaybackRate();
+        }
     }
 }
 
