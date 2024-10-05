@@ -13,24 +13,10 @@
     align-items: flex-end;
 }
 
-/* styles.css */
 #speedContainer button.active {
     background-color: #4CAF50; /* 緑色の背景 */
     color: white;              /* 文字色を白に */
   }
-  
-
-#volumeContainer {
-    order: 3;
-    width: fit-content;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-}
-
-#volumeContainer button {
-    width: fit-content;
-}
 
 button {
     width:25%;
@@ -46,7 +32,7 @@ button:hover {
     background-color: #bdc3c7;
 }
 
-#screenShotButton {
+#screenshotButton {
     order: 2;
     display: flex;
     width: fit-content;
