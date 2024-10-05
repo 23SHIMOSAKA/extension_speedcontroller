@@ -13,6 +13,13 @@
     align-items: flex-end;
 }
 
+/* styles.css */
+#speedContainer button.active {
+    background-color: #4CAF50; /* 緑色の背景 */
+    color: white;              /* 文字色を白に */
+  }
+  
+
 #volumeContainer {
     order: 3;
     width: fit-content;
