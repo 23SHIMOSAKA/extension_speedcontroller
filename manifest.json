@@ -1,6 +1,6 @@
 {
     "name": "Speed Control Extension",
-    "version": "1.0",
+    "version": "2.0",
     "description": "Control video playback speed on YouTube with simple buttons.",
     "manifest_version": 3,
     "permissions": ["activeTab", "storage", "webNavigation"],
@@ -9,7 +9,7 @@
       {
         "matches": ["*://www.youtube.com/watch*"],
         "css": ["styles.css"],
-        "js": ["content.js"]
+        "js": ["dist/bundle.js"]
       }
     ]
   }
