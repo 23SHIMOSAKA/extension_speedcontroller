@@ -4,7 +4,7 @@ YouTubeで動画再生速度を変えるボタンを追加するよ
 
 ### 適用方法
 1. 右メニューの[Releases](https://github.com/23SHIMOSAKA/extension_speedcontroller/releases)をクリック
-2. 一番新しいバージョンにある**Assets**からSource Code(zip)をダウンロード
+2. 一番新しいバージョンにある**Assets**からzipをダウンロード
 3. Chromeの拡張機能ページ（chrome://extensions/）に行く
 4. 「パッケージ化されていない拡張機能を読み込む」から解凍したファイルを選択  
 （デベロッパーモードをオンにしておく）
