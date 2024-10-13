@@ -14,11 +14,13 @@
   </div>
   
   <!-- popup.html 内 -->
-  <div id="errorMessage" style="color: red; display: none;"></div>
-
-  <input type="number" id="newSpeed" placeholder="新しい速度を入力" step="0.1" min="0.1">
-  <button id="addSpeedButton">追加</button>
+  <div id="messageBox" style="color: red; display: none;"></div>
+  <div id="inputContainer">
+    <input type="number" id="newSpeed" placeholder="新しい速度を入力" step="0.1" min="0.1">
+    <button id="addSpeedButton">追加</button>
+  </div>
   <button id="saveButton">保存</button>
+
   <script src="popup.js"></script>
 </body>
 </html>

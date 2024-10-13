@@ -1,81 +1,101 @@
 /* 全体のスタイル */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f5f5f5;
-    width: 300px;
-  }
-  
-  h1 {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  
-  p {
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
-  
-  /* 再生速度リストのスタイル */
-  #speedListContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .speed-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .speed-item span {
-    font-size: 16px;
-  }
-  
-  .speed-item button {
-    background-color: #e74c3c;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .speed-item button:hover {
-    background-color: #c0392b;
-  }
-  
-  /* 入力とボタンのスタイル */
-  #newSpeed {
-    width: calc(100% - 70px);
-    padding: 8px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  #addSpeedButton, #saveButton {
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  #addSpeedButton:hover, #saveButton:hover {
-    background-color: #2980b9;
-  }
-  
-  /* ボタンの配置 */
-  #addSpeedButton {
-    margin-bottom: 20px;
-  }
-  
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f5f5f5;
+  width: 300px;
+}
+
+h1 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+#messageBox {
+  white-space: pre-line;
+}
+
+/* 再生速度リストのスタイル */
+#speedListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.speed-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.speed-item span {
+  font-size: 16px;
+}
+
+.speed-item button {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.speed-item button:hover {
+  background-color: #c0392b;
+}
+
+/* 入力とボタンの横並びスタイル */
+#inputContainer {
+  display: block;
+  margin-bottom: 20px;
+}
+
+#newSpeed {
+  width: 50%;
+  padding: 8px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#addSpeedButton {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#addSpeedButton:hover {
+  background-color: #2980b9;
+}
+
+/* 保存ボタンを下側に配置 */
+#saveButton {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+}
+
+#saveButton:hover {
+  background-color: #2980b9;
+}

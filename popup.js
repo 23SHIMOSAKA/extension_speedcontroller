@@ -60,17 +60,17 @@ document.addEventListener('DOMContentLoaded', function () {
   saveButton.addEventListener('click', function () {
     const speedListString = speedList.join(', ');
     chrome.storage.sync.set({ speedList: speedListString }, function () {
-      showMessage('再生速度リストを保存しました。変更を反映するためには、YouTubeのページをリロードしてください。');
+      showMessage('再生速度リストを保存しました。\n変更を反映するためには、YouTubeのページをリロードしてください。');
     });
   });
 
-  // エラーメッセージを表示する関数
+  // 実行結果を表示する関数
   function showMessage(message) {
-    const errorMessage = document.getElementById('errorMessage');
-    errorMessage.textContent = message;
-    errorMessage.style.display = 'block';
+    const messageBox = document.getElementById('messageBox');
+    messageBox.textContent = message;
+    messageBox.style.display = 'block';
     setTimeout(() => {
-      errorMessage.style.display = 'none';
+      messageBox.style.display = 'none';
     }, 3000);
   }
 
