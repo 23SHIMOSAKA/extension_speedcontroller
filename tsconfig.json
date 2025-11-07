@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": false,
+    "lib": ["DOM", "ES2021"],
+    "types": ["chrome"],
+    "outDir": "dist",
+    "sourceMap": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

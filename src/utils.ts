@@ -1,8 +1,8 @@
-export function getVideo() {
-    return document.querySelector('.video-stream');
+export function getVideo(): HTMLVideoElement | null {
+    return document.querySelector<HTMLVideoElement>('.video-stream');
 }
 
-export function showTooltip(button, message) {
+export function showTooltip(button: HTMLElement, message: string): void {
     const tooltip = document.createElement('div');
     tooltip.classList.add('tooltip-text');
     tooltip.textContent = message;

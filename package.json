@@ -2,14 +2,19 @@
   "name": "extension_speedcontroller",
   "version": "1.0.0",
   "description": "YouTubeで動画再生速度を変えるボタンを追加するよ",
-  "main": "content.js",
+  "main": "dist/content.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --mode production",
+    "build:watch": "webpack --mode development --watch",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/chrome": "^0.0.258",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.6.3",
     "webpack": "^5.95.0",
     "webpack-cli": "^5.1.4"
   },

@@ -9,7 +9,7 @@
       {
         "matches": ["*://www.youtube.com/*"],
         "css": ["styles.css"],
-        "js": ["dist/bundle.js"]
+        "js": ["dist/content.js"]
       }
     ],
     "action": {

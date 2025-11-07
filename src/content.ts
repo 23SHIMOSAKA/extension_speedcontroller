@@ -1,46 +1,42 @@
-import SpeedController from './speedController.js';
-import ScreenshotController from './screenshotController.js';
+import SpeedController from './speedController';
+import ScreenshotController from './screenshotController';
 
-let currentUrl = location.href;
+let currentUrl: string = location.href;
 
-// 初期化
-function initializeExtension() {
+function initializeExtension(): void {
     if (!location.href.includes('/watch')) {
-      return; // /watch ページでない場合は何もしない
+        return;
     }
-  
-    // 既に拡張機能が初期化されている場合はスキップ
+
     if (document.getElementById('AllContainer')) {
-      return;
+        return;
     }
-  
+
     insertAfterClarifyBox();
-  }
-  
-  // pushState, replaceState をフック
-(function(history) {
+}
+
+// Hook pushState and replaceState to detect SPA navigation
+(function hookHistory(history: History) {
     const pushState = history.pushState;
     const replaceState = history.replaceState;
-  
-    history.pushState = function(state) {
-      const result = pushState.apply(history, arguments);
-      window.dispatchEvent(new Event('locationchange'));
-      return result;
-    };
-  
-    history.replaceState = function(state) {
-      const result = replaceState.apply(history, arguments);
-      window.dispatchEvent(new Event('locationchange'));
-      return result;
-    };
-  })(window.history);
 
-// popstate イベントを監視
+    history.pushState = function patchedPushState(...args) {
+        const result = pushState.apply(history, args as [data: unknown, unusedTitle: string, url?: string | URL | null]);
+        window.dispatchEvent(new Event('locationchange'));
+        return result;
+    };
+
+    history.replaceState = function patchedReplaceState(...args) {
+        const result = replaceState.apply(history, args as [data: unknown, unusedTitle: string, url?: string | URL | null]);
+        window.dispatchEvent(new Event('locationchange'));
+        return result;
+    };
+})(window.history);
+
 window.addEventListener('popstate', () => {
     window.dispatchEvent(new Event('locationchange'));
-  });
-  
-// locationchange イベントを監視
+});
+
 window.addEventListener('locationchange', () => {
     if (location.href !== currentUrl) {
         currentUrl = location.href;
@@ -48,18 +44,16 @@ window.addEventListener('locationchange', () => {
     }
 });
 
-function createAllContainer() {
+function createAllContainer(): HTMLDivElement {
     const allContainer = document.createElement('div');
     allContainer.id = 'AllContainer';
 
-    // スクリーンショットボタン
     const screenshotButton = document.createElement('button');
     screenshotButton.id = 'screenshotButton';
     screenshotButton.textContent = '📷';
     allContainer.appendChild(screenshotButton);
     new ScreenshotController(screenshotButton);
 
-    // 再生速度ボタン
     const speedContainer = document.createElement('div');
     speedContainer.id = 'speedContainer';
     allContainer.appendChild(speedContainer);
@@ -68,10 +62,10 @@ function createAllContainer() {
     return allContainer;
 }
 
-function insertAfterClarifyBox() {
-    const observer = new MutationObserver((mutations, obs) => {
+function insertAfterClarifyBox(): void {
+    const observer = new MutationObserver((_, obs) => {
         const targetElement = document.getElementById('clarify-box');
-        if (targetElement) {
+        if (targetElement && targetElement.parentNode) {
             const allContainer = createAllContainer();
             targetElement.parentNode.insertBefore(allContainer, targetElement.nextSibling);
             obs.disconnect();
@@ -84,5 +78,4 @@ function insertAfterClarifyBox() {
     });
 }
 
-// 初期ロード時に拡張機能を初期化
 initializeExtension();

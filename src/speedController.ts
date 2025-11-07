@@ -1,35 +1,45 @@
-// speedController.js
+// speedController.ts
 
-import { getVideo } from './utils.js';
+import { getVideo } from './utils';
+
+const DEFAULT_SPEEDS = '1, 1.25, 1.5, 2';
 
 class SpeedController {
-    constructor(container) {
+    private readonly container: HTMLElement;
+    private video: HTMLVideoElement | null;
+    private speeds: number[];
+
+    constructor(container: HTMLElement) {
         this.container = container;
         this.video = null;
         this.speeds = [];
         this.init();
     }
 
-    init() {
+    private init(): void {
         this.loadSpeeds();
         this.setupVideoObserver();
     }
 
-    loadSpeeds() {
-        chrome.storage.sync.get({ speedList: '1, 1.25, 1.5, 2' }, (data) => {
-            this.speeds = data.speedList.split(',').map(speed => parseFloat(speed.trim()));
-            this.speeds.forEach(speed => this.createButton(speed));
+    private loadSpeeds(): void {
+        chrome.storage.sync.get({ speedList: DEFAULT_SPEEDS }, (data) => {
+            const rawSpeeds = typeof data.speedList === 'string' ? data.speedList : DEFAULT_SPEEDS;
+            this.speeds = rawSpeeds
+                .split(',')
+                .map((speed) => parseFloat(speed.trim()))
+                .filter((speed) => !Number.isNaN(speed));
+            this.speeds.forEach((speed) => this.createButton(speed));
         });
     }
 
-    createButton(speed) {
+    private createButton(speed: number): void {
         const button = document.createElement('button');
         button.textContent = `${speed}x`;
         button.addEventListener('click', () => this.onSpeedButtonClick(speed));
         this.container.appendChild(button);
     }
 
-    onSpeedButtonClick(speed) {
+    private onSpeedButtonClick(speed: number): void {
         if (this.video) {
             this.video.playbackRate = speed;
             this.savePlaybackRate(speed);
@@ -37,23 +47,25 @@ class SpeedController {
         }
     }
 
-    savePlaybackRate(speed) {
+    private savePlaybackRate(speed: number): void {
         chrome.storage.sync.set({ playbackRate: speed });
     }
 
-    applySavedPlaybackRate() {
+    private applySavedPlaybackRate(): void {
         chrome.storage.sync.get(['playbackRate'], (result) => {
-            if (result.playbackRate && this.video) {
-                this.video.playbackRate = result.playbackRate;
-                this.updateButtonColors(result.playbackRate);
+            const rate = typeof result.playbackRate === 'number' ? result.playbackRate : null;
+            if (rate && this.video) {
+                this.video.playbackRate = rate;
+                this.updateButtonColors(rate);
             }
         });
     }
 
-    updateButtonColors(selectedSpeed) {
+    private updateButtonColors(selectedSpeed: number): void {
         const buttons = this.container.querySelectorAll('button');
-        buttons.forEach(button => {
-            if (parseFloat(button.textContent) === selectedSpeed) {
+        buttons.forEach((button) => {
+            const parsed = parseFloat(button.textContent ?? '');
+            if (!Number.isNaN(parsed) && parsed === selectedSpeed) {
                 button.classList.add('active');
             } else {
                 button.classList.remove('active');
@@ -61,13 +73,13 @@ class SpeedController {
         });
     }
 
-    setupVideoObserver() {
-        // 最初の動画要素を取得
+    private setupVideoObserver(): void {
+        // Acquire the initial video element if it already exists
         this.video = getVideo();
 
-        // 動画が存在しない場合、DOMの変化を監視
+        // If the video is missing (e.g. SSR placeholder), observe DOM changes
         if (!this.video) {
-            const bodyObserver = new MutationObserver((mutations, obs) => {
+            const bodyObserver = new MutationObserver((_, obs) => {
                 this.video = getVideo();
                 if (this.video) {
                     this.addVideoEventListeners();
@@ -79,7 +91,7 @@ class SpeedController {
             this.addVideoEventListeners();
         }
 
-        // 動画要素の置き換えを監視
+        // Track replacements of the video element to rebind listeners
         const videoParent = document.querySelector('.html5-video-player');
         if (videoParent) {
             const videoObserver = new MutationObserver(() => {
@@ -93,11 +105,11 @@ class SpeedController {
         }
     }
 
-    addVideoEventListeners() {
+    private addVideoEventListeners(): void {
         if (this.video) {
-            // 動画のメタデータがロードされたときに再生速度を適用
+            // Apply saved rate once metadata is available
             this.video.addEventListener('loadedmetadata', () => this.applySavedPlaybackRate());
-            // ページ読み込み時にも再生速度を適用
+            // Also apply immediately for already loaded videos
             this.applySavedPlaybackRate();
         }
     }
