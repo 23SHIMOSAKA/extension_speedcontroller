@@ -44,6 +44,7 @@ class SpeedController {
             this.video.playbackRate = speed;
             this.savePlaybackRate(speed);
             this.updateButtonColors(speed);
+            this.enforceLivePlaybackRate();
         }
     }
 
@@ -57,6 +58,7 @@ class SpeedController {
             if (rate && this.video) {
                 this.video.playbackRate = rate;
                 this.updateButtonColors(rate);
+                this.enforceLivePlaybackRate();
             }
         });
     }
@@ -111,6 +113,23 @@ class SpeedController {
             this.video.addEventListener('loadedmetadata', () => this.applySavedPlaybackRate());
             // Also apply immediately for already loaded videos
             this.applySavedPlaybackRate();
+        }
+    }
+
+    private isLiveStream(): boolean {
+        const liveBadge = document.querySelector('.ytp-live-badge.ytp-button');
+        return !!liveBadge && liveBadge.classList.contains('ytp-live-badge-is-livehead');
+    }
+
+    private enforceLivePlaybackRate(): void {
+        if (!this.video || !this.isLiveStream()) {
+            return;
+        }
+
+        if (this.video.playbackRate !== 1) {
+            this.video.playbackRate = 1;
+            this.updateButtonColors(1);
+            this.savePlaybackRate(1);
         }
     }
 }
